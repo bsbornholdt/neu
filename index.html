@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NeuroBoost - Optimize Your Brain Health</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Include Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- Stylesheet -->
+    <style>
+        /* Reset and Basic Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            overflow-x: hidden;
+            margin: 0;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        /* Container */
+        #app {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 50px;
+        }
+        /* Header */
+        header {
+            background-color: #4CAF50;
+            padding: 20px 0;
+            text-align: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin: 0;
+        }
+        header p {
+            margin: 5px 0 0 0;
+        }
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        nav a {
+            margin: 5px 15px;
+            font-weight: 600;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        nav a:hover, nav a.active {
+            background-color: #388E3C;
+            color: white;
+        }
+        /* Main Content */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .screen.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .content {
+            margin: 40px 0;
+            line-height: 1.8;
+        }
+        .content h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #4CAF50;
+            font-weight: 600;
+        }
+        .content h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #388E3C;
+            font-weight: 600;
+        }
+        .content p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .highlight {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-left: 4px solid #4CAF50;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 14px;
+            color: #777;
+        }
+        /* Additional Styles */
+        /* Cards */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 300px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 20px;
+        }
+        .card-content h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600;
+        }
+        .card-content p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .card-content .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        .card-content .button:hover {
+            background-color: #45a049;
+        }
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            background-color: rgba(0,0,0,0.8);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 40px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            position: relative;
+        }
+        .modal-content h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #4CAF50;
+            font-weight: 600;
+        }
+        .modal-content p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 30px;
+            color: #aaa;
+            cursor: pointer;
+        }
+        .close-btn:hover {
+            color: #000;
+        }
+        /* Progress Bar */
+        .progress-container {
+            background-color: #e0e0e0;
+            border-radius: 30px;
+            margin: 30px 0;
+            height: 25px;
+            width: 100%;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #4CAF50;
+            border-radius: 30px;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+            font-weight: 600;
+            transition: width 0.5s;
+        }
+        /* Explanation Section */
+        .explanation {
+            margin-top: 40px;
+            background-color: #f1f8e9;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #8bc34a;
+        }
+        .explanation h3 {
+            color: #558b2f;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <!-- Header -->
+    <header>
+        <h1>NeuroBoost</h1>
+        <p>Enhance Your Cognitive Potential</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#" id="nav-home" class="active" onclick="navigate('homeScreen')">Home</a>
+        <a href="#" id="nav-protocol" onclick="navigate('protocolScreen')">Protocol</a>
+        <a href="#" id="nav-drumming" onclick="navigate('drummingScreen')">Drumming</a>
+        <a href="#" id="nav-language" onclick="navigate('languageScreen')">Language</a>
+        <a href="#" id="nav-exercise" onclick="navigate('exerciseScreen')">Exercise</a>
+        <a href="#" id="nav-meditation" onclick="navigate('meditationScreen')">Meditation</a>
+        <a href="#" onclick="toggleModal()">Evidence</a>
+        <a href="#" id="nav-explanation" onclick="navigate('explanationScreen')">Synergy Explained</a>
+    </nav>
+
+    <!-- Screens -->
+    <!-- Home Screen -->
+    <div id="homeScreen" class="screen active">
+        <div class="content">
+            <h2>Welcome to NeuroBoost</h2>
+            <p>
+                NeuroBoost is an innovative platform designed to optimize your brain health through a holistic approach. By integrating <strong>drumming</strong>, <strong>language learning</strong>, <strong>physical exercise</strong>, and <strong>mindfulness meditation</strong>, we aim to enhance neuroplasticity, cognitive flexibility, and overall mental well-being.
+            </p>
+            <div class="highlight">
+                <p><em>"Unlock the synergy of rhythmic movement, linguistic mastery, physical vitality, and mindfulness to transform your cognitive capabilities."</em></p>
+            </div>
+            <div class="card-container">
+                <!-- Drumming Card -->
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1516646255117-8af44b0f5793?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Drumming">
+                    <div class="card-content">
+                        <h3>Drumming Practice</h3>
+                        <p>Enhance coordination and stimulate neural connectivity through rhythmic exercises.</p>
+                        <button class="button" onclick="navigate('drummingScreen')">Explore</button>
+                    </div>
+                </div>
+                <!-- Language Card -->
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1555965143-996cf1cdb16f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Language Learning">
+                    <div class="card-content">
+                        <h3>Language Learning</h3>
+                        <p>Boost memory and cognitive flexibility by mastering new languages.</p>
+                        <button class="button" onclick="navigate('languageScreen')">Explore</button>
+                    </div>
+                </div>
+                <!-- Exercise Card -->
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1526401485004-3809d5e28d6b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Physical Exercise">
+                    <div class="card-content">
+                        <h3>Physical Exercise</h3>
+                        <p>Improve brain health and neurogenesis through targeted physical activities.</p>
+                        <button class="button" onclick="navigate('exerciseScreen')">Explore</button>
+                    </div>
+                </div>
+                <!-- Meditation Card -->
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1505740106531-4243f3831b52?auto=format&fit=crop&w=800&q=80" alt="Meditation">
+                    <div class="card-content">
+                        <h3>Mindfulness Meditation</h3>
+                        <p>Enhance focus and reduce stress through guided meditation sessions.</p>
+                        <button class="button" onclick="navigate('meditationScreen')">Explore</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Protocol Screen -->
+    <div id="protocolScreen" class="screen">
+        <div class="content">
+            <h2>Comprehensive Cognitive Enhancement Protocol</h2>
+            <p>
+                Our protocol integrates multiple evidence-based practices to stimulate brain function and promote cognitive growth. It is structured to maximize neuroplastic development and optimize learning across various domains.
+            </p>
+            <!-- Detailed sections for each component -->
+            <h3>1. Drumming Practice for Limb Independence and Timing</h3>
+            <p>
+                <strong>Objective:</strong> Enhance coordination, timing, and bilateral brain connectivity.
+            </p>
+            <p>
+                <strong>Frequency:</strong> 3–5 times per week, 20–30 minutes per session.
+            </p>
+            <p>
+                <strong>Structure:</strong> Start with simple rhythmic patterns and gradually increase complexity. Incorporate metronome training to improve timing.
+            </p>
+            <div class="highlight">
+                <p><i class="fas fa-drum"></i> <strong>Benefit:</strong> Strengthens neural connections, promoting interhemispheric communication.</p>
+            </div>
+            <h3>2. Language Learning for Verbal and Memory Networks</h3>
+            <p>
+                <strong>Objective:</strong> Strengthen auditory processing, memory, and linguistic centers.
+            </p>
+            <p>
+                <strong>Frequency:</strong> Daily practice, 30–60 minutes per day.
+            </p>
+            <p>
+                <strong>Structure:</strong> Combine vocabulary building with grammar exercises and conversational practice.
+            </p>
+            <div class="highlight">
+                <p><i class="fas fa-language"></i> <strong>Benefit:</strong> Enhances executive function and cognitive flexibility.</p>
+            </div>
+            <h3>3. Physical Exercise for Enhanced Neurogenesis</h3>
+            <p>
+                <strong>Objective:</strong> Improve overall brain health and boost neurogenesis.
+            </p>
+            <p>
+                <strong>Frequency:</strong> 3–4 times per week, 30–45 minutes per session.
+            </p>
+            <p>
+                <strong>Structure:</strong> Prioritize aerobic exercises and include coordination activities.
+            </p>
+            <div class="highlight">
+                <p><i class="fas fa-running"></i> <strong>Benefit:</strong> Increases BDNF levels, supporting memory retention.</p>
+            </div>
+            <h3>4. Mindfulness Meditation for Focus and Stress Reduction</h3>
+            <p>
+                <strong>Objective:</strong> Enhance attention and emotional regulation.
+            </p>
+            <p>
+                <strong>Frequency:</strong> Daily, 10–20 minutes per session.
+            </p>
+            <p>
+                <strong>Structure:</strong> Practice guided mindfulness and gradually progress to unguided sessions.
+            </p>
+            <div class="highlight">
+                <p><i class="fas fa-spa"></i> <strong>Benefit:</strong> Increases gray matter density in areas associated with attention.</p>
+            </div>
+            <h3>Weekly Structure Example</h3>
+            <table style="width:100%; border-collapse: collapse;">
+                <tr>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Day</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Activity</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Duration</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ddd; padding: 8px;">Monday</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">Drumming, Language Practice, Physical Exercise</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">20 mins, 60 mins, 30 mins</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ddd; padding: 8px;">Tuesday</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">Meditation, Language Practice</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">20 mins, 60 mins</td>
+                </tr>
+                <!-- Continue for other days -->
+            </table>
+            <h3>Expected Outcomes</h3>
+            <p>
+                By adhering to this protocol, you can expect significant improvements in cognitive functions, including enhanced memory, increased attention span, better coordination, and reduced stress levels. The synergistic effects of these practices contribute to overall brain health and cognitive resilience.
+            </p>
+        </div>
+    </div>
+
+    <!-- Drumming Screen -->
+    <div id="drummingScreen" class="screen">
+        <div class="content">
+            <h2>Drumming Practice</h2>
+            <p>
+                Drumming is more than just music; it's a powerful tool for cognitive enhancement. The act of drumming engages both hemispheres of the brain, promoting <strong>interhemispheric communication</strong> and strengthening the <strong>corpus callosum</strong>—the bridge between the brain's left and right sides.
+            </p>
+            <p>
+                Research shows that drumming leads to structural changes in brain connective tissue, enhancing coordination, timing, and motor skills.
+            </p>
+            <div class="highlight">
+                <p><i class="fas fa-drum"></i> <strong>Benefit:</strong> Improved neural connectivity and motor coordination.</p>
+            </div>
+            <h3>Exercises:</h3>
+            <ul>
+                <li><strong>Basic Rhythms:</strong> Establish foundational timing and beat consistency.</li>
+                <li><strong>Polyrhythms:</strong> Challenge your brain with complex patterns requiring simultaneous rhythms.</li>
+                <li><strong>Limb Independence:</strong> Develop the ability to perform different tasks with each limb, enhancing coordination.</li>
+                <li><strong>Metronome Training:</strong> Use a metronome to improve timing precision and rhythmic stability.</li>
+                <li><strong>Drum Along:</strong> Play along with music tracks to enhance auditory processing and synchronization.</li>
+            </ul>
+            <h3>Tips for Effective Practice:</h3>
+            <ul>
+                <li>Start slow and gradually increase the tempo as you become more comfortable.</li>
+                <li>Focus on maintaining a relaxed posture to prevent tension.</li>
+                <li>Record your sessions to monitor progress and identify areas for improvement.</li>
+            </ul>
+            <div class="progress-container">
+                <div id="drummingProgress" class="progress-bar">0%</div>
+            </div>
+            <button class="button" onclick="markCompleted('drumming')">Mark as Completed</button>
+        </div>
+    </div>
+
+    <!-- Language Learning Screen -->
+    <div id="languageScreen" class="screen">
+        <div class="content">
+            <h2>Language Learning</h2>
+            <p>
+                Learning new languages not only expands your communication skills but also induces significant brain changes. It increases gray matter volume in language centers and enhances the density of neural pathways.
+            </p>
+            <p>
+                This cognitive endeavor improves <strong>memory</strong>, <strong>attention</strong>, and <strong>executive functions</strong>, making your brain more adaptable and efficient.
+            </p>
+            <div class="highlight">
+                <p><i class="fas fa-language"></i> <strong>Benefit:</strong> Enhanced memory and cognitive flexibility.</p>
+            </div>
+            <h3>Exercises:</h3>
+            <ul>
+                <li><strong>Vocabulary Expansion:</strong> Learn new words daily to strengthen memory recall. Use flashcards or apps like Anki.</li>
+                <li><strong>Grammar and Syntax:</strong> Understand the structure of languages to improve problem-solving skills. Practice by writing sentences.</li>
+                <li><strong>Immersive Practice:</strong> Engage in conversations, watch films, or listen to music in the target language to enhance comprehension.</li>
+                <li><strong>Language Exchange:</strong> Partner with native speakers for mutual learning and cultural exchange.</li>
+                <li><strong>Reading:</strong> Read books or articles to improve vocabulary and contextual understanding.</li>
+            </ul>
+            <h3>Tips for Effective Learning:</h3>
+            <ul>
+                <li>Set realistic goals and track your progress regularly.</li>
+                <li>Practice consistently, even if only for short periods each day.</li>
+                <li>Don't be afraid to make mistakes; they are essential for learning.</li>
+            </ul>
+            <div class="progress-container">
+                <div id="languageProgress" class="progress-bar">0%</div>
+            </div>
+            <button class="button" onclick="markCompleted('language')">Mark as Completed</button>
+        </div>
+    </div>
+
+    <!-- Physical Exercise Screen -->
+    <div id="exerciseScreen" class="screen">
+        <div class="content">
+            <h2>Physical Exercise</h2>
+            <p>
+                Physical activity is a cornerstone of brain health. Exercise stimulates the release of <strong>brain-derived neurotrophic factor (BDNF)</strong>, which supports the growth and differentiation of new neurons and synapses.
+            </p>
+            <p>
+                Regular exercise enhances <strong>neurogenesis</strong>, improves mood, and boosts cognitive functions like learning and memory.
+            </p>
+            <div class="highlight">
+                <p><i class="fas fa-running"></i> <strong>Benefit:</strong> Increased neurogenesis and cognitive performance.</p>
+            </div>
+            <h3>Activities:</h3>
+            <ul>
+                <li><strong>Aerobic Workouts:</strong> Engage in running, cycling, or swimming to elevate heart rate and BDNF levels.</li>
+                <li><strong>Coordination Exercises:</strong> Practice activities like dance, martial arts, or team sports that require complex movements and strategic thinking.</li>
+                <li><strong>Strength Training:</strong> Incorporate weightlifting to improve overall physical health and support brain function.</li>
+                <li><strong>Mind-Body Practices:</strong> Include yoga or tai chi to enhance mindfulness and stress reduction.</li>
+            </ul>
+            <h3>Tips for Effective Exercise:</h3>
+            <ul>
+                <li>Choose activities you enjoy to maintain motivation.</li>
+                <li>Combine different types of exercises for a balanced routine.</li>
+                <li>Stay hydrated and ensure proper nutrition to support your workouts.</li>
+            </ul>
+            <div class="progress-container">
+                <div id="exerciseProgress" class="progress-bar">0%</div>
+            </div>
+            <button class="button" onclick="markCompleted('exercise')">Mark as Completed</button>
+        </div>
+    </div>
+
+    <!-- Meditation Screen -->
+    <div id="meditationScreen" class="screen">
+        <div class="content">
+            <h2>Mindfulness Meditation</h2>
+            <p>
+                Mindfulness meditation enhances attention and emotional regulation by increasing gray matter density in areas associated with attention and sensory processing. It reduces stress, improves focus, and promotes mental clarity.
+            </p>
+            <div class="highlight">
+                <p><i class="fas fa-spa"></i> <strong>Benefit:</strong> Enhanced focus and reduced stress.</p>
+            </div>
+            <h3>Sessions:</h3>
+            <ul>
+                <li><strong>Guided Meditation:</strong> Start with guided sessions to learn basic mindfulness techniques. Apps like Headspace or Calm can be helpful.</li>
+                <li><strong>Breathing Exercises:</strong> Practice deep breathing to calm the mind and body. Focus on inhaling and exhaling slowly.</li>
+                <li><strong>Body Scan Meditation:</strong> Increase body awareness by focusing on physical sensations from head to toe.</li>
+                <li><strong>Loving-Kindness Meditation:</strong> Cultivate compassion by directing positive thoughts toward yourself and others.</li>
+                <li><strong>Mindful Walking:</strong> Practice mindfulness during movement by paying attention to each step and your surroundings.</li>
+            </ul>
+            <h3>Tips for Effective Meditation:</h3>
+            <ul>
+                <li>Find a quiet, comfortable space free from distractions.</li>
+                <li>Start with short sessions and gradually increase the duration.</li>
+                <li>Be patient and gentle with yourself; it's normal for thoughts to arise.</li>
+            </ul>
+            <div class="progress-container">
+                <div id="meditationProgress" class="progress-bar">0%</div>
+            </div>
+            <button class="button" onclick="markCompleted('meditation')">Mark as Completed</button>
+        </div>
+    </div>
+
+    <!-- Explanation Screen -->
+    <div id="explanationScreen" class="screen">
+        <div class="content">
+            <h2>The Synergy of Combined Practices</h2>
+            <p>
+                The integration of drumming, language learning, physical exercise, and coordination activities creates a powerful synergy that amplifies cognitive enhancement.
+            </p>
+            <div class="explanation">
+                <h3>Drumming and Brain Structure</h3>
+                <p>
+                    Drumming stimulates both hemispheres of the brain, enhancing interhemispheric communication. This bilateral engagement strengthens the corpus callosum, leading to improved coordination and motor skills.
+                </p>
+                <h3>Language Learning and Neuroplasticity</h3>
+                <p>
+                    Engaging in language learning increases gray matter density in key brain regions associated with memory and executive function. The cognitive demands of acquiring a new language promote neuroplasticity and enhance overall brain function.
+                </p>
+                <h3>Aerobic Exercise and Neurogenesis</h3>
+                <p>
+                    Aerobic activities elevate levels of brain-derived neurotrophic factor (BDNF), which supports the growth of new neurons and synapses. This neurogenesis enhances learning capacity and memory retention.
+                </p>
+                <h3>Coordination Exercises and Cognitive Flexibility</h3>
+                <p>
+                    Activities that require coordination, such as drumming and certain physical exercises, improve the brain's ability to process complex tasks. This enhances cognitive flexibility, allowing for better adaptation to new learning challenges.
+                </p>
+                <h3>The Combined Effect</h3>
+                <p>
+                    When these practices are combined, they reinforce each other's benefits. Drumming's impact on brain structure facilitates language learning by improving neural pathways. Aerobic exercise boosts neurogenesis, providing a fertile ground for new connections formed during language acquisition and drumming practice. Coordination exercises further enhance these effects by promoting efficient neural processing.
+                </p>
+                <p>
+                    This synergistic approach leads to accelerated cognitive development, making the whole greater than the sum of its parts.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scientific Evidence Modal -->
+    <div id="evidenceModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="toggleModal()">&times;</span>
+            <h2>Scientific Evidence</h2>
+            <p>
+                <strong>Drumming and Brain Structure:</strong> Research by Gaser and Schlaug (2003) indicates that professional musicians exhibit increased gray matter volume in motor, auditory, and visuospatial regions, and enhanced connectivity in the corpus callosum, leading to better coordination and interhemispheric communication.
+            </p>
+            <p>
+                <strong>Language Learning Benefits:</strong> Mechelli et al. (2004) found that bilingual individuals have increased gray matter density in the left inferior parietal cortex, which correlates with improved memory and executive control functions.
+            </p>
+            <p>
+                <strong>Exercise and Neurogenesis:</strong> Studies such as Ratey and Loehr (2011) demonstrate that physical exercise elevates BDNF levels, promoting neurogenesis and synaptic plasticity, essential for learning and memory consolidation.
+            </p>
+            <p>
+                <strong>Coordination Exercises:</strong> Research shows that activities requiring coordination, like dance and sports, enhance cerebellar function and improve motor learning (Kattenstroth et al., 2013).
+            </p>
+            <p>
+                <strong>Combined Effects:</strong> A study by Penhune and Steele (2012) suggests that musical training can enhance language learning abilities due to overlapping neural mechanisms involved in processing sound and rhythm.
+            </p>
+            <p>
+                These findings support the integrated approach of NeuroBoost, demonstrating that combining these practices leads to significant structural and functional brain changes, enhancing cognitive performance.
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2024 NeuroBoost Inc. | <a href="#" onclick="toggleModal()">Privacy Policy</a> | <a href="#" onclick="toggleModal()">Terms of Service</a>
+    </footer>
+</div>
+
+<!-- JavaScript -->
+<script>
+    // Navigation Function
+    function navigate(screenId) {
+        // Update active class on nav links
+        document.querySelectorAll('nav a').forEach(navLink => {
+            navLink.classList.remove('active');
+        });
+        document.getElementById('nav-' + screenId.replace('Screen', '')).classList.add('active');
+
+        // Hide all screens
+        document.querySelectorAll('.screen').forEach(screen => {
+            screen.classList.remove('active');
+        });
+        // Show the selected screen
+        document.getElementById(screenId).classList.add('active');
+
+        // Update progress bar if applicable
+        updateProgressBar(screenId.replace('Screen', ''));
+    }
+
+    // Toggle Modal Function
+    function toggleModal() {
+        const modal = document.getElementById('evidenceModal');
+        modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Mark Module as Completed
+    function markCompleted(module) {
+        localStorage.setItem(`${module}Completed`, 'true');
+        updateProgressBar(module);
+        alert(`Congratulations! You have completed the ${module.charAt(0).toUpperCase() + module.slice(1)} module.`);
+    }
+
+    // Update Progress Bar
+    function updateProgressBar(module) {
+        const progressBar = document.getElementById(`${module}Progress`);
+        const isCompleted = localStorage.getItem(`${module}Completed`);
+        if (isCompleted === 'true') {
+            progressBar.style.width = '100%';
+            progressBar.innerText = '100%';
+        } else {
+            progressBar.style.width = '0%';
+            progressBar.innerText = '0%';
+        }
+    }
+
+    // Initialize Progress Bars
+    function initializeProgress() {
+        ['drumming', 'language', 'exercise', 'meditation'].forEach(module => {
+            updateProgressBar(module);
+        });
+    }
+
+    // On Page Load
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeProgress();
+    });
+</script>
+
+</body>
+</html>
